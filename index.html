@@ -1,0 +1,359 @@
+
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZMA-AUTO | Премиум авто из Кореи для такси</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #ff6b35;
+            --accent-glow: #ff8c5a;
+            --bg-deep: #0a0a0f;
+            --bg-card: #12121a;
+            --neon-cyan: #00f5ff;
+            --neon-orange: #ff6b35;
+        }
+
+        * {
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-deep);
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        ::selection {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0a0f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--accent), var(--neon-cyan));
+            border-radius: 10px;
+        }
+
+        /* Glass morphism */
+        .glass {
+            background: rgba(18, 18, 26, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .glass-strong {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Text effects */
+        .text-gradient {
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .text-gradient-fire {
+            background: linear-gradient(135deg, #ff6b35 0%, #ffab40 50%, #ff6b35 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 3s linear infinite;
+        }
+
+        .text-glow {
+            text-shadow: 0 0 40px rgba(255, 107, 53, 0.5);
+        }
+
+        /* Background effects */
+        .bg-mesh {
+            background-image:
+                radial-gradient(at 0% 0%, rgba(255, 107, 53, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 50%, rgba(0, 245, 255, 0.08) 0px, transparent 50%),
+                radial-gradient(at 50% 100%, rgba(255, 107, 53, 0.1) 0px, transparent 50%);
+        }
+
+        /* Grid background */
+        .bg-grid {
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        /* Noise texture */
+        .noise::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* CAR ANIMATIONS */
+        @keyframes carDrive {
+            0% { transform: translateX(-100%) translateY(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateX(100vw) translateY(0); opacity: 0; }
+        }
+
+        @keyframes carFloat {
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
+
+        @keyframes carReveal {
+            0% { transform: translateX(-50px) scale(0.9); opacity: 0; filter: blur(10px); }
+            100% { transform: translateX(0) scale(1); opacity: 1; filter: blur(0); }
+        }
+
+        @keyframes wheelSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes headlightGlow {
+            0%, 100% { opacity: 0.6; box-shadow: 0 0 20px 10px rgba(255, 200, 100, 0.3); }
+            50% { opacity: 1; box-shadow: 0 0 40px 20px rgba(255, 200, 100, 0.6); }
+        }
+
+        @keyframes exhaustSmoke {
+            0% { transform: translateX(0) scale(1); opacity: 0.5; }
+            100% { transform: translateX(-60px) scale(2); opacity: 0; }
+        }
+
+        @keyframes speedLines {
+            0% { transform: translateX(0) scaleX(0); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateX(-200px) scaleX(1); opacity: 0; }
+        }
+
+        @keyframes carHover3D {
+            0%, 100% { transform: perspective(1000px) rotateY(-5deg) rotateX(2deg); }
+            50% { transform: perspective(1000px) rotateY(5deg) rotateX(-2deg); }
+        }
+
+        /* Animation classes */
+        .car-drive {
+            animation: carDrive 12s linear infinite;
+        }
+
+        .car-float {
+            animation: carFloat 4s ease-in-out infinite;
+        }
+
+        .car-reveal {
+            animation: carReveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .car-hover-3d {
+            animation: carHover3D 6s ease-in-out infinite;
+        }
+
+        .wheel-spin {
+            animation: wheelSpin 1s linear infinite;
+        }
+
+        .headlight-glow {
+            animation: headlightGlow 2s ease-in-out infinite;
+        }
+
+        .exhaust-smoke {
+            animation: exhaustSmoke 1.5s ease-out infinite;
+        }
+
+        .speed-line {
+            animation: speedLines 0.8s ease-out infinite;
+        }
+
+        /* UI Animations */
+        @keyframes shimmer {
+            to { background-position: 200% center; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 107, 53, 0.4); }
+            50% { box-shadow: 0 0 60px rgba(255, 107, 53, 0.8); }
+        }
+
+        @keyframes slide-up {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scale-in {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes border-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes road-move {
+            from { background-position: 0 0; }
+            to { background-position: -100px 0; }
+        }
+
+        /* Animation utilities */
+        .animate-float {
+            animation: float 5s ease-in-out infinite;
+        }
+
+        .animate-glow-pulse {
+            animation: glow-pulse 2s ease-in-out infinite;
+        }
+
+        .animate-slide-up {
+            animation: slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate-fade-in {
+            animation: fade-in 1s ease-out forwards;
+        }
+
+        .animate-scale-in {
+            animation: scale-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Staggered animations */
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        .stagger-4 { animation-delay: 0.4s; }
+        .stagger-5 { animation-delay: 0.5s; }
+
+        /* 3D Card effect */
+        .card-3d {
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .card-3d:hover {
+            transform: rotateY(-5deg) rotateX(5deg) translateZ(20px);
+        }
+
+        .card-3d-inner {
+            transform: translateZ(40px);
+        }
+
+        /* Gradient borders */
+        .gradient-border {
+            position: relative;
+        }
+
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(135deg, var(--accent), var(--neon-cyan), var(--accent));
+            background-size: 200% 200%;
+            animation: border-flow 4s ease infinite;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+
+        /* Road animation */
+        .road-animated {
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 40px,
+                rgba(255, 255, 255, 0.3) 40px,
+                rgba(255, 255, 255, 0.3) 60px
+            );
+            animation: road-move 1s linear infinite;
+        }
+
+        /* Particle effect container */
+        .particles {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Hero car shadow */
+        .car-shadow {
+            filter: drop-shadow(0 40px 60px rgba(0, 0, 0, 0.5))
+                    drop-shadow(0 0 100px rgba(255, 107, 53, 0.2));
+        }
+
+        /* Speed effect overlay */
+        .speed-overlay {
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(255, 107, 53, 0.1) 50%,
+                transparent 100%);
+        }
+
+        /* Mono font for numbers */
+        .font-mono {
+            font-family: 'Space Mono', monospace;
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "recharts": "https://esm.sh/recharts@^3.6.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="bg-mesh">
+    <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
